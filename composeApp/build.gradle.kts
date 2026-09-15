@@ -2469,10 +2469,8 @@ tasks.withType<Test> {
     // Use JUnit Platform for test discovery
     useJUnitPlatform()
     // Disable failure when test sources exist but no tests are discovered
-    // Safe reflection call for Gradle 8/9 cross-compatibility
-    runCatching {
-        javaClass.getMethod("setFailOnNoDiscoveredTests", Boolean::class.javaPrimitiveType).invoke(this, false)
-    }
+    // This handles misconfigured test sources or test classes without test methods
+    failOnNoDiscoveredTests = false
 
     // Point the test JVM's home at a build directory, so BossDirectories.rootDir resolves to
     // <build>/test-home/.boss instead of the developer's real ~/.boss.
